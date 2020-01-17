@@ -1,5 +1,5 @@
 # QuantityPickerView
-Like the iOS Stepper with a toggle animation.  
+A View capable of increasing or decreasing a unit value, with a toggle animation.  
 <img src=".imgs/s1.gif" alt="Sample" width="30%"/> <img src=".imgs/s2.gif" alt="Sample" width="30%"/>
 
 #### Version 1.x
