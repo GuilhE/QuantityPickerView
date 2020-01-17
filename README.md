@@ -1,6 +1,6 @@
 # QuantityPickerView
 Like the iOS Stepper with a toggle animation.  
-![header](.imgs/banner.png)
+![s1](.imgs/s1.gif) ![s2](.imgs/s2.gif)
 
 #### Version 1.x
 - **January, 2020** - QuantityPickerView 🥳
@@ -41,11 +41,6 @@ com.github.guilhe.views.QuantityPickerView
     app:textLabelFormatter="%s units."
     app:textLabelSize="14sp"/>
  ```
-
-## Sample
-<img src=".imgs/sample.gif" alt="Sample" width="30%"/>
-
-_Animation last update on January, 2020_
 
 ## Binaries
 Binaries and dependency information for Gradle, Maven, Ivy and others can be found at [https://search.maven.org](https://search.maven.org/search?q=a:quantity-picker-view).
