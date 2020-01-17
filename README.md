@@ -48,7 +48,7 @@ com.github.guilhe.views.QuantityPickerView
 _Animation last update on January, 2020_
 
 ## Binaries
-Binaries and dependency information for Gradle, Maven, Ivy and others can be found at [https://search.maven.org](https://search.maven.org/search?q=a:quantity-picker-view).
+Binaries and dependency information for Gradle, Maven, Ivy and others can be found [here](https://search.maven.org/artifact/com.github.guilhe/quantity-picker-view).
 
 <a href='https://bintray.com/gdelgado/android/quantity-picker-view?source=watch' alt='Get automatic notifications about new "quantity-picker-view" versions'><img src='https://www.bintray.com/docs/images/bintray_badge_bw.png'></a>
 
