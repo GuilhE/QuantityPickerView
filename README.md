@@ -1,5 +1,6 @@
 # QuantityPickerView
-A View capable of increasing or decreasing a unit value, with a toggle animation.  
+A View capable of increasing or decreasing a unit value with a toggle animation.  
+
 <img src=".imgs/s1.gif" alt="Sample" width="30%"/> <img src=".imgs/s2.gif" alt="Sample" width="30%"/>
 
 #### Version 1.x
@@ -11,7 +12,7 @@ Include it into your project, for example, as a Gradle dependency:
 ```groovy
 implementation 'com.github.guilhe:quantity-picker-view:${LATEST_VERSION}'
 ```
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.guilhe/quantity-picker-view/badge.svg)](https://search.maven.org/search?q=a:quantity-picker-view)  [![Download](https://api.bintray.com/packages/gdelgado/android/quantity-picker-view/images/download.svg)](https://bintray.com/gdelgado/android/quantity-picker-view/_latestVersion)  
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.guilhe/quantity-picker-view/badge.svg)](https://search.maven.org/artifact/com.github.guilhe/quantity-picker-view)  [![Download](https://api.bintray.com/packages/gdelgado/android/quantity-picker-view/images/download.svg)](https://bintray.com/gdelgado/android/quantity-picker-view/_latestVersion)  
 
 ## Usage
 Check out the __sample__ module where you can find a few examples of how to create it by `xml`.
