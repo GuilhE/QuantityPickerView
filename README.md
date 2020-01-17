@@ -1,6 +1,6 @@
 # QuantityPickerView
 Like the iOS Stepper with a toggle animation.  
-![s1](.imgs/s1.gif) ![s2](.imgs/s2.gif)
+<img src=".imgs/s1.gif" alt="Sample" width="30%"/> <img src=".imgs/s2.gif" alt="Sample" width="30%"/>
 
 #### Version 1.x
 - **January, 2020** - QuantityPickerView 🥳
