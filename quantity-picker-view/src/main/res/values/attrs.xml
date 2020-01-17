@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="QuantityPickerView">
+        <attr name="min" format="integer" />
+        <attr name="max" format="integer" />
+        <attr name="value" format="integer" />
+        <attr name="textLabelSize" format="dimension" />
+        <attr name="textLabelFormatter" format="string" />
+        <attr name="textLabelFont" format="reference" />
+        <attr name="backgroundColor" format="color" />
+        <attr name="btnRemove" format="reference" />
+        <attr name="btnAdd" format="reference" />
+        <attr name="isOpen" format="boolean" />
+        <attr name="autoToggle" format="boolean" />
+    </declare-styleable>
+</resources>

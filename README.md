@@ -1,0 +1,76 @@
+# QuantityPickerView
+Like the iOS Stepper with a toggle animation.  
+![header](.imgs/banner.png)
+
+#### Version 1.x
+- **January, 2020** - QuantityPickerView 🥳
+
+## Getting started
+Include it into your project, for example, as a Gradle dependency:
+
+```groovy
+implementation 'com.github.guilhe:quantity-picker-view:${LATEST_VERSION}'
+```
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.guilhe/quantity-picker-view/badge.svg)](https://search.maven.org/search?q=a:quantity-picker-view)  [![Download](https://api.bintray.com/packages/gdelgado/android/quantity-picker-view/images/download.svg)](https://bintray.com/gdelgado/android/quantity-picker-view/_latestVersion)  
+
+## Usage
+Check out the __sample__ module where you can find a few examples of how to create it by `xml`.
+
+Attributes accepted in xml:
+```xml
+<declare-styleable name="QuantityPickerView">
+        <attr name="min" format="integer" />
+        <attr name="max" format="integer" />
+        <attr name="value" format="integer" />
+        <attr name="textLabelSize" format="dimension" />
+        <attr name="textLabelFormatter" format="string" />
+        <attr name="textLabelFont" format="reference" />
+        <attr name="backgroundColor" format="color" />
+        <attr name="btnRemove" format="reference" />
+        <attr name="btnAdd" format="reference" />
+        <attr name="isOpen" format="boolean" />
+        <attr name="autoToggle" format="boolean" />
+    </declare-styleable>
+```
+Example:
+```xml
+com.github.guilhe.views.QuantityPickerView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:textLabelFont="@font/permanentmarker_regular"
+    app:textLabelFormatter="%s units."
+    app:textLabelSize="14sp"/>
+ ```
+
+## Sample
+<img src=".imgs/sample.gif" alt="Sample" width="30%"/>
+
+_Animation last update on January, 2020_
+
+## Binaries
+Binaries and dependency information for Gradle, Maven, Ivy and others can be found at [https://search.maven.org](https://search.maven.org/search?q=a:quantity-picker-view).
+
+<a href='https://bintray.com/gdelgado/android/quantity-picker-view?source=watch' alt='Get automatic notifications about new "quantity-picker-view" versions'><img src='https://www.bintray.com/docs/images/bintray_badge_bw.png'></a>
+
+## Dependencies
+- [com.android.support:support-annotations](https://developer.android.com/topic/libraries/support-library/packages.html#annotations)
+- [androidx.appcompat:appcompat](https://developer.android.com/jetpack/androidx/releases/appcompat) (for ResourcesCompat.getFont())
+
+## Bugs and Feedback
+For bugs, questions and discussions please use the [Github Issues](https://github.com/GuilhE/android-quantity-picker-view/issues).
+
+ 
+## LICENSE
+Copyright (c) 2020-present, GuilhE.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+<http://www.apache.org/licenses/LICENSE-2.0>
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
