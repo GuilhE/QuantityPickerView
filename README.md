@@ -1,4 +1,6 @@
 # QuantityPickerView
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-QuantityPickerView-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/8022)  
+
 A View capable of increasing or decreasing a unit value with a toggle animation.  
 
 <img src=".imgs/s1.gif" alt="Sample" width="30%"/> <img src=".imgs/s2.gif" alt="Sample" width="30%"/>
