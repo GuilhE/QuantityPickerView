@@ -33,8 +33,11 @@ Attributes accepted in xml:
         <attr name="btnAdd" format="reference" />
         <attr name="isOpen" format="boolean" />
         <attr name="autoToggle" format="boolean" />
+        <attr name="rippleEnable" format="boolean" />
+        <attr name="rippleColor" format="color" />
     </declare-styleable>
 ```
+
 Example:
 ```xml
 com.github.guilhe.views.QuantityPickerView
@@ -43,7 +46,7 @@ com.github.guilhe.views.QuantityPickerView
     app:textLabelFont="@font/permanentmarker_regular"
     app:textLabelFormatter="%s units."
     app:textLabelSize="14sp"/>
- ```
+```
 
 ## Binaries
 Binaries and dependency information for Gradle, Maven, Ivy and others can be found [here](https://search.maven.org/artifact/com.github.guilhe/quantity-picker-view).
