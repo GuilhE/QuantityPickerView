@@ -155,7 +155,7 @@ class QuantityPickerView : View {
             invalidate()
         }
 
-    private var value: Int = 0
+    var value: Int = 0
         set(value) {
             field = value
             invalidate()
