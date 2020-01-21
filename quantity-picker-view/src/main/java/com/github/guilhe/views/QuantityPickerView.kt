@@ -12,6 +12,8 @@ import android.graphics.*
 import android.graphics.Paint.ANTI_ALIAS_FLAG
 import android.graphics.Paint.Align
 import android.os.Build
+import android.os.Bundle
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -34,36 +36,23 @@ class QuantityPickerView : View {
         ADD, REMOVE
     }
 
-    private var defaultTextLabelFormatter: String = "%s"
     private val defaultMaxAlpha = 255
-    private val darkenColorFilter: ColorFilter = PorterDuffColorFilter(0x48000000, PorterDuff.Mode.SRC_ATOP)
     private val defaultBackgroundColor = Color.rgb(0xE5, 0xF0, 0xC7)
     private var defaultInterpolator: TimeInterpolator = DecelerateInterpolator()
     private var initializing: Boolean = false
-
+    private val darkenColorFilter: ColorFilter = PorterDuffColorFilter(0x48000000, PorterDuff.Mode.SRC_ATOP)
     private var pickerBackgroundColor: Int = 0
-    private var disableLabel: Boolean = false
-    private var showLabel: Boolean = true
     private var labelAlpha: Int = defaultMaxAlpha
-    private var textLabelSize: Int = dpToPx(20)
-    private var isOpen: Boolean = false
     private var isClosing: Boolean = false
     private var isAnimating: Boolean = false
     private var translateAnimator: ValueAnimator? = null
     private var alphaAnimator: ValueAnimator? = null
     private var btnRemovePosition: Float = 0f
 
-    private var maxValue: Int = Integer.MAX_VALUE
-    private var minValue: Int = 0
-    private var currentValue: Int = 0
-    private var valueListener: QuantityPickerViewChangeListener? = null
-    private var autoToggle: Boolean = true
-
     private lateinit var textLabelPaint: Paint
     private lateinit var pickerPaint: Paint
     private lateinit var btnAddPaint: Paint
     private lateinit var btnRemovePaint: Paint
-    private lateinit var btnPressedOverlayPaint: Paint
     private lateinit var backgroundLineRect: RectF
     private lateinit var removeButtonRect: RectF
     private lateinit var addButtonRect: RectF
@@ -98,15 +87,15 @@ class QuantityPickerView : View {
         var customTypeFace: Typeface? = null
         val a = context.theme.obtainStyledAttributes(attrs, R.styleable.QuantityPickerView, 0, 0)
         try {
-            minValue = a.getInt(R.styleable.QuantityPickerView_min, 0)
-            maxValue = a.getInt(R.styleable.QuantityPickerView_max, Integer.MAX_VALUE)
-            currentValue = a.getInt(R.styleable.QuantityPickerView_value, minValue)
+            min = a.getInt(R.styleable.QuantityPickerView_min, 0)
+            max = a.getInt(R.styleable.QuantityPickerView_max, Integer.MAX_VALUE)
+            value = a.getInt(R.styleable.QuantityPickerView_value, min)
             textLabelSize = a.getDimension(R.styleable.QuantityPickerView_textLabelSize, textLabelSize.toFloat()).toInt()
-            defaultTextLabelFormatter = a.getString(R.styleable.QuantityPickerView_textLabelFormatter) ?: defaultTextLabelFormatter
+            textLabelFormatter = a.getString(R.styleable.QuantityPickerView_textLabelFormatter) ?: textLabelFormatter
             val fontResId = a.getResourceId(R.styleable.QuantityPickerView_textLabelFont, -1)
             if (fontResId != -1) {
                 try {
-                    customTypeFace = ResourcesCompat.getFont(context, fontResId);
+                    customTypeFace = ResourcesCompat.getFont(context, fontResId)
                 } catch (e: Exception) {
                 }
             }
@@ -146,61 +135,59 @@ class QuantityPickerView : View {
             isAntiAlias = true
             style = Paint.Style.FILL
         }
-        btnPressedOverlayPaint = Paint(ANTI_ALIAS_FLAG).apply {
-            isAntiAlias = true
-            style = Paint.Style.FILL
-            color = Color.BLACK
-            alpha = 75
-        }
     }
 
     //region setters & getters
     fun setLimits(min: Int, max: Int) {
-        setMin(min)
-        setMax(max)
+        this.min = min
+        this.max = max
     }
 
-    fun setMax(max: Int) {
-        maxValue = max
-    }
+    var max: Int = Integer.MAX_VALUE
+        set(value) {
+            field = value
+            invalidate()
+        }
 
-    fun getMaxLimit() = maxValue
+    var min: Int = 0
+        set(value) {
+            field = value
+            invalidate()
+        }
 
-    fun setMin(min: Int) {
-        minValue = min
-    }
+    private var value: Int = 0
+        set(value) {
+            field = value
+            invalidate()
+        }
 
-    fun getMinLimit() = minValue
+    var showLabel: Boolean = true
+        set(value) {
+            field = value
+            invalidate()
+        }
 
-    fun setCurrentValue(value: Int) {
-        currentValue = value
-        invalidate()
-    }
+    // If you want to define something like "x unit." call this method with formatter = "%s unit."
+    var textLabelFormatter: String = "%s"
+        set(value) {
+            field = value
+            invalidate()
+        }
 
-    fun getCurrentValue() = currentValue
+    // Values in DP
+    var textLabelSize: Int = dpToPx(20)
+        set(value) {
+            field = value
+            invalidate()
+        }
 
-    fun setQuantityChangeListener(listener: QuantityPickerViewChangeListener) {
-        valueListener = listener
-    }
+    // When minimum value is reached the view closes automatically
+    var autoToggle: Boolean = true
 
-    /**
-     * When minimum value is reached the view closes automatically
-     */
-    fun enableAutoToggle(enable: Boolean) {
-        autoToggle = enable
-    }
+    var isOpen: Boolean = false
+        private set
 
-    fun showTextLabel(show: Boolean) {
-        showLabel = show
-        invalidate()
-    }
-
-    /**
-     * If you want to define something like "x unit." call this method with formatter = "%s unit."
-     */
-    fun setTextLabelFormatter(formatter: String) {
-        defaultTextLabelFormatter = formatter
-    }
+    var valueListener: QuantityPickerViewChangeListener? = null
     //endregion
 
     //region background
@@ -304,15 +291,15 @@ class QuantityPickerView : View {
     fun toggle(duration: Long, interpolator: TimeInterpolator) {
         if (translateAnimator == null || !translateAnimator!!.isRunning) {
             translateAnimator = getAnimator(
-                btnRemovePosition,
-                if (isOpen) width.toFloat() - btnAdd.width else 0f,
-                duration,
-                interpolator,
-                AnimatorUpdateListener { valueAnimator ->
-                    val value = valueAnimator.animatedValue as Float
-                    translateRemoveButton(value)
-                    updateButtonsRect()
-                }).also {
+                    btnRemovePosition,
+                    if (isOpen) width.toFloat() - btnAdd.width else 0f,
+                    duration,
+                    interpolator,
+                    AnimatorUpdateListener { valueAnimator ->
+                        val value = valueAnimator.animatedValue as Float
+                        translateRemoveButton(value)
+                        updateButtonsRect()
+                    }).also {
                 it.addListener(object : Animator.AnimatorListener {
                     override fun onAnimationEnd(animation: Animator) {
                         isAnimating = false
@@ -338,13 +325,13 @@ class QuantityPickerView : View {
             }
 
             alphaAnimator = getAnimator(
-                labelAlpha.toFloat(),
-                if (isOpen) 0f else defaultMaxAlpha.toFloat(),
-                if (duration > 0) duration / 3 else 0,
-                LinearInterpolator(),
-                AnimatorUpdateListener { valueAnimator ->
-                    setLabelAlpha((valueAnimator.animatedValue as Float).toInt())
-                }).also {
+                    labelAlpha.toFloat(),
+                    if (isOpen) 0f else defaultMaxAlpha.toFloat(),
+                    if (duration > 0) duration / 3 else 0,
+                    LinearInterpolator(),
+                    AnimatorUpdateListener { valueAnimator ->
+                        setLabelAlpha((valueAnimator.animatedValue as Float).toInt())
+                    }).also {
                 it.addListener(object : Animator.AnimatorListener {
                     override fun onAnimationEnd(animation: Animator) {
                         isAnimating = false
@@ -376,7 +363,7 @@ class QuantityPickerView : View {
     }
 
     private fun getAnimator(
-        current: Float, next: Float, duration: Long, timeInterpolator: TimeInterpolator, listener: AnimatorUpdateListener
+            current: Float, next: Float, duration: Long, timeInterpolator: TimeInterpolator, listener: AnimatorUpdateListener
     ): ValueAnimator {
         return ValueAnimator().apply {
             this.interpolator = timeInterpolator
@@ -420,6 +407,7 @@ class QuantityPickerView : View {
         setMeasuredDimension(width, height)
 
         if (initializing) {
+            initializing = false
             btnRemovePosition = if (isOpen) 0f else (width - btnRemove.width).toFloat()
             updateButtonsRect()
         }
@@ -433,24 +421,24 @@ class QuantityPickerView : View {
         canvas.drawRect(backgroundLineRect, pickerPaint)
 
         if (showLabel) {
-            drawCenteredText(canvas, textLabelPaint.apply { alpha = labelAlpha }, String.format(defaultTextLabelFormatter, currentValue))
+            drawCenteredText(canvas, textLabelPaint.apply { alpha = labelAlpha }, String.format(textLabelFormatter, value))
         }
         canvas.drawBitmap(
-            btnRemove,
-            btnRemovePosition,
-            0f,
-            btnRemovePaint.apply {
-                alpha = if (btnRemovePosition >= width.toFloat() - btnAdd.width) 0 else defaultMaxAlpha
-                colorFilter = if (pressedButton != null && pressedButton!! == Button.REMOVE) darkenColorFilter else null
-            })
+                btnRemove,
+                btnRemovePosition,
+                0f,
+                btnRemovePaint.apply {
+                    alpha = if (btnRemovePosition >= width.toFloat() - btnAdd.width) 0 else defaultMaxAlpha
+                    colorFilter = if (pressedButton != null && pressedButton!! == Button.REMOVE) darkenColorFilter else null
+                })
 
         canvas.drawBitmap(
-            btnAdd,
-            width.toFloat() - btnAdd.width,
-            height.toFloat() - btnAdd.height,
-            btnAddPaint.apply {
-                colorFilter = if (pressedButton != null && pressedButton!! == Button.ADD) darkenColorFilter else null
-            })
+                btnAdd,
+                width.toFloat() - btnAdd.width,
+                height.toFloat() - btnAdd.height,
+                btnAddPaint.apply {
+                    colorFilter = if (pressedButton != null && pressedButton!! == Button.ADD) darkenColorFilter else null
+                })
     }
 
     private fun drawCenteredText(canvas: Canvas, paint: Paint, text: String) {
@@ -491,16 +479,16 @@ class QuantityPickerView : View {
                         if (!isOpen) {
                             toggle()
                         }
-                        if (currentValue < maxValue) {
-                            currentValue++
+                        if (value < max) {
+                            value++
                             return updateAndReturn()
                         }
                     }
                     if (pressedButton != null && pressedButton!! == Button.REMOVE) {
                         pressedButton = null
-                        if (currentValue > minValue) {
-                            currentValue--
-                            if (currentValue == 0 && autoToggle && isOpen) {
+                        if (value > min) {
+                            value--
+                            if (value == 0 && autoToggle && isOpen) {
                                 toggle()
                             }
                             return updateAndReturn()
@@ -511,6 +499,11 @@ class QuantityPickerView : View {
                         }
                     }
                 }
+                pressedButton = null
+                invalidate()
+                return true
+            }
+            MotionEvent.ACTION_OUTSIDE -> {
                 pressedButton = null
                 invalidate()
                 return true
@@ -531,7 +524,7 @@ class QuantityPickerView : View {
 
     private fun updateAndReturn(): Boolean {
         invalidate()
-        valueListener?.onChanged(this, currentValue)
+        valueListener?.onChanged(this, value)
         return true
     }
 
@@ -539,4 +532,33 @@ class QuantityPickerView : View {
         return ceil(dp * Resources.getSystem().displayMetrics.density).toInt()
     }
 //endregion
+
+    override fun onSaveInstanceState(): Parcelable? {
+        val bundle = Bundle()
+        bundle.putParcelable("SUPER", super.onSaveInstanceState())
+        bundle.putInt("VALUE", value)
+        bundle.putInt("MIN", min)
+        bundle.putInt("MAX", max)
+        bundle.putBoolean("LABEL_SHOW", showLabel)
+        bundle.putInt("LABEL_SIZE", textLabelSize)
+        bundle.putInt("LABEL_ALPHA", labelAlpha)
+        bundle.putString("LABEL_FORMATTER", textLabelFormatter)
+        bundle.putBoolean("IS_OPEN", isOpen)
+        bundle.putBoolean("AUTO_TOGGLE", autoToggle)
+        return bundle
+    }
+
+    override fun onRestoreInstanceState(parcel: Parcelable) {
+        val bundle = parcel as Bundle
+        super.onRestoreInstanceState(bundle.getParcelable("SUPER"))
+        value = bundle.getInt("VALUE")
+        min = bundle.getInt("MIN")
+        max = bundle.getInt("MAX")
+        showLabel = bundle.getBoolean("LABEL_SHOW", true)
+        textLabelSize = bundle.getInt("LABEL_SIZE")
+        labelAlpha = bundle.getInt("LABEL_ALPHA")
+        textLabelFormatter = bundle.getString("LABEL_FORMATTER", "%s")
+        isOpen = bundle.getBoolean("IS_OPEN", false)
+        autoToggle = bundle.getBoolean("AUTO_TOGGLE", true)
+    }
 }
