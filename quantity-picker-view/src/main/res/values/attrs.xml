@@ -12,5 +12,7 @@
         <attr name="btnAdd" format="reference" />
         <attr name="isOpen" format="boolean" />
         <attr name="autoToggle" format="boolean" />
+        <attr name="rippleEnable" format="boolean" />
+        <attr name="rippleColor" format="color" />
     </declare-styleable>
 </resources>

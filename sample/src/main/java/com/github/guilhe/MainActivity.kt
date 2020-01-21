@@ -18,12 +18,12 @@ class MainActivity : AppCompatActivity() {
 
         val listener = object : QuantityPickerViewChangeListener {
             override fun onChanged(view: QuantityPickerView, value: Int) {
-                (view.parent as FrameLayout).elevation = if (value == view.getMinLimit()) dpToPx(0) else dpToPx(5)
+                (view.parent as FrameLayout).elevation = if (value == view.min) dpToPx(0) else dpToPx(5)
             }
         }
 
-        binding.picker1QuantityPickerView.setQuantityChangeListener(listener)
-        binding.picker2QuantityPickerView.setQuantityChangeListener(listener)
+        binding.picker1QuantityPickerView.valueListener = listener
+        binding.picker2QuantityPickerView.valueListener = listener
     }
 
     private fun dpToPx(dp: Int): Float {
