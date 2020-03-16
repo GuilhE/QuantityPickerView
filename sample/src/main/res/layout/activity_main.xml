@@ -47,6 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
+                app:toggleFrom="end"
                 app:textLabelFont="@font/permanentmarker_regular"
                 app:textLabelSize="30sp"
                 tools:isOpen="true" />
