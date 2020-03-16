@@ -3,10 +3,10 @@
 
 A View capable of increasing or decreasing a unit value with a toggle animation.  
 
-<img src=".imgs/s1.gif" alt="Sample" width="30%"/> <img src=".imgs/s2.gif" alt="Sample" width="30%"/>
+<img src=".imgs/s1.gif" alt="Sample" width="27%"/> <img src=".imgs/s2.gif" alt="Sample" width="27%"/> <img src=".imgs/s3.gif" alt="Sample"/> <img src=".imgs/s4.gif" alt="Sample"/>
 
 #### Version 1.x
-- **March, 2020** - View size will be equal to its state in, other words, expanded.size != closed.size
+- **March, 2020** - View size will be equal to its state, in other words, _expanded.size != closed.size_
 - **January, 2020** - QuantityPickerView 🥳
 
 ## Getting started
