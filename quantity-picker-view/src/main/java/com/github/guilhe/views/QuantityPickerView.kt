@@ -325,10 +325,11 @@ class QuantityPickerView : View {
             val buttonToTranslate = if (toggleFromStart) Button.ADD else Button.REMOVE
             translateAnimator = getAnimator(
                 if (buttonToTranslate == Button.ADD) btnAddXPosition else btnRemoveXPosition,
-                if (toggleFromStart)
+                if (toggleFromStart) {
                     if (isOpen) 0f else maxWidth.toFloat() - btnAdd.width
-                else
-                    if (isOpen) maxWidth.toFloat() - btnAdd.width else 0f,
+                } else {
+                    if (isOpen) maxWidth.toFloat() - btnAdd.width else 0f
+                },
                 duration,
                 interpolator,
                 AnimatorUpdateListener { valueAnimator ->
@@ -467,11 +468,14 @@ class QuantityPickerView : View {
         if (initializing) {
             initializing = false
             btnAddXPosition =
-                if (isOpen)
-                    (maxWidth - btnRemove.width).toFloat()
-                else
-                    if (toggleFromStart) 0f else (maxWidth - btnAdd.width).toFloat()
-            btnRemoveXPosition = if (isOpen) 0f else btnAddXPosition
+                if (toggleFromStart) {
+                    if (isOpen) {
+                        (maxWidth - btnAdd.width).toFloat()
+                    } else 0f
+                } else {
+                    (maxWidth - btnAdd.width).toFloat()
+                }
+            btnRemoveXPosition = if (!toggleFromStart && !isOpen) btnAddXPosition else 0f
             updateButtonsRect()
             @RequiresApi(Build.VERSION_CODES.M)
             if (isRippleEnabled) {
@@ -479,13 +483,13 @@ class QuantityPickerView : View {
                 btnRippleDrawable?.radius = addButtonRect.height() / 2
             }
         }
-        setMeasuredDimension(
-            if (btnAddXPosition == btnRemoveXPosition)
-                max(addButtonRect.width(), removeButtonRect.width())
-            else
-                abs(removeButtonRect.width() / 2 + btnAddXPosition - btnRemoveXPosition + addButtonRect.width() / 2).toInt(),
-            height
-        ).also { updateButtonsRect() }
+//        setMeasuredDimension(
+//            if (btnAddXPosition == btnRemoveXPosition)
+//                max(addButtonRect.width(), removeButtonRect.width())
+//            else
+//                abs(removeButtonRect.width() / 2 + btnAddXPosition - btnRemoveXPosition + addButtonRect.width() / 2).toInt(),
+//            height
+//        ).also { updateButtonsRect() }
         maxWidth = width
     }
 
