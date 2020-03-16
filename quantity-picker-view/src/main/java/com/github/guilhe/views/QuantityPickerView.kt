@@ -37,6 +37,7 @@ class QuantityPickerView : View {
         ADD, REMOVE
     }
 
+    private val defaultMaxWidth = 200
     private val defaultMaxAlpha = 255
     private val defaultBackgroundColor = Color.rgb(0xE5, 0xF0, 0xC7)
     private var defaultInterpolator: TimeInterpolator = DecelerateInterpolator()
@@ -51,6 +52,7 @@ class QuantityPickerView : View {
     private var btnRemoveXPosition: Float = 0f
     private var btnAddXPosition: Float = 0f
     private var btnRippleDrawable: RippleDrawable? = null
+    private var maxWidth = defaultMaxWidth
 
     private lateinit var textLabelPaint: Paint
     private lateinit var pickerPaint: Paint
@@ -324,9 +326,9 @@ class QuantityPickerView : View {
             translateAnimator = getAnimator(
                 if (buttonToTranslate == Button.ADD) btnAddXPosition else btnRemoveXPosition,
                 if (toggleFromStart)
-                    if (isOpen) 0f else width.toFloat() - btnAdd.width
+                    if (isOpen) 0f else maxWidth.toFloat() - btnAdd.width
                 else
-                    if (isOpen) width.toFloat() - btnAdd.width else 0f,
+                    if (isOpen) maxWidth.toFloat() - btnAdd.width else 0f,
                 duration,
                 interpolator,
                 AnimatorUpdateListener { valueAnimator ->
@@ -335,9 +337,16 @@ class QuantityPickerView : View {
                     updateButtonsRect()
                 }).also {
                 it.addListener(object : Animator.AnimatorListener {
+                    override fun onAnimationStart(animation: Animator?) {
+                        isAnimating = true
+                        if (isOpen && labelAlpha > 0) {
+                            alphaAnimator?.start()
+                        }
+                    }
+
                     override fun onAnimationEnd(animation: Animator) {
                         isAnimating = false
-                        isOpen = if (toggleFromStart) btnAddXPosition == width.toFloat() - btnAdd.width else btnRemoveXPosition == 0f
+                        isOpen = if (toggleFromStart) btnAddXPosition == maxWidth.toFloat() - btnAdd.width else btnRemoveXPosition == 0f
                         if (isOpen) {
                             alphaAnimator?.start()
                         }
@@ -347,13 +356,6 @@ class QuantityPickerView : View {
                     }
 
                     override fun onAnimationCancel(animation: Animator?) {
-                    }
-
-                    override fun onAnimationStart(animation: Animator?) {
-                        isAnimating = true
-                        if (isOpen && labelAlpha > 0) {
-                            alphaAnimator?.start()
-                        }
                     }
                 })
             }
@@ -367,6 +369,10 @@ class QuantityPickerView : View {
                     setLabelAlpha((valueAnimator.animatedValue as Float).toInt())
                 }).also {
                 it.addListener(object : Animator.AnimatorListener {
+                    override fun onAnimationStart(animation: Animator?) {
+                        isAnimating = true
+                    }
+
                     override fun onAnimationEnd(animation: Animator) {
                         isAnimating = false
                         if (isClosing) {
@@ -378,10 +384,6 @@ class QuantityPickerView : View {
                     }
 
                     override fun onAnimationCancel(animation: Animator?) {
-                    }
-
-                    override fun onAnimationStart(animation: Animator?) {
-                        isAnimating = true
                     }
                 })
             }
@@ -418,7 +420,8 @@ class QuantityPickerView : View {
         } else {
             btnRemoveXPosition = value
         }
-        invalidate()
+//        invalidate()
+        requestLayout()
     }
 
     private fun setLabelAlpha(value: Int) {
@@ -450,7 +453,7 @@ class QuantityPickerView : View {
 
     @Synchronized
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        var width = 200
+        var width = defaultMaxWidth
         if (MeasureSpec.getMode(widthMeasureSpec) != MeasureSpec.UNSPECIFIED) {
             width = MeasureSpec.getSize(widthMeasureSpec)
         }
@@ -459,14 +462,15 @@ class QuantityPickerView : View {
             height = min(height, MeasureSpec.getSize(heightMeasureSpec))
         }
         setMeasuredDimension(width, height)
+        maxWidth = width
 
         if (initializing) {
             initializing = false
             btnAddXPosition =
                 if (isOpen)
-                    (width - btnRemove.width).toFloat()
+                    (maxWidth - btnRemove.width).toFloat()
                 else
-                    if (toggleFromStart) 0f else (width - btnAdd.width).toFloat()
+                    if (toggleFromStart) 0f else (maxWidth - btnAdd.width).toFloat()
             btnRemoveXPosition = if (isOpen) 0f else btnAddXPosition
             updateButtonsRect()
             @RequiresApi(Build.VERSION_CODES.M)
@@ -475,6 +479,14 @@ class QuantityPickerView : View {
                 btnRippleDrawable?.radius = addButtonRect.height() / 2
             }
         }
+        setMeasuredDimension(
+            if (btnAddXPosition == btnRemoveXPosition)
+                max(addButtonRect.width(), removeButtonRect.width())
+            else
+                abs(removeButtonRect.width() / 2 + btnAddXPosition - btnRemoveXPosition + addButtonRect.width() / 2).toInt(),
+            height
+        ).also { updateButtonsRect() }
+        maxWidth = width
     }
 
     @Synchronized
@@ -627,6 +639,7 @@ class QuantityPickerView : View {
         bundle.putString("LABEL_FORMATTER", textLabelFormatter)
         bundle.putBoolean("IS_OPEN", isOpen)
         bundle.putBoolean("AUTO_TOGGLE", isAutoToggleEnabled)
+        bundle.putBoolean("TOGGLE_FROM_START", toggleFromStart)
         return bundle
     }
 
@@ -642,5 +655,6 @@ class QuantityPickerView : View {
         textLabelFormatter = bundle.getString("LABEL_FORMATTER", "%s")
         isOpen = bundle.getBoolean("IS_OPEN", false)
         isAutoToggleEnabled = bundle.getBoolean("AUTO_TOGGLE", true)
+        toggleFromStart = bundle.getBoolean("TOGGLE_FROM_START", true)
     }
 }
