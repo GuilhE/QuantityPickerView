@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.github.guilhe.databinding.ActivityMainBinding
 import com.github.guilhe.views.QuantityPickerView
-import com.github.guilhe.views.QuantityPickerView.QuantityPickerViewChangeListener
+import com.github.guilhe.views.QuantityPickerView.QuantityPickerViewActionListener
 import kotlin.math.ceil
 
 class MainActivity : AppCompatActivity() {
@@ -16,17 +16,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        val listener = object : QuantityPickerViewChangeListener {
-            override fun onChanged(view: QuantityPickerView, value: Int) {
+        val listener = object : QuantityPickerViewActionListener {
+            override fun onValueChanged(view: QuantityPickerView, value: Int) {
                 (view.parent as FrameLayout).elevation = if (value == view.min) dpToPx(0) else dpToPx(5)
             }
+
+            override fun onToggleFinish(isOpen: Boolean) {}
         }
 
-        binding.picker1QuantityPickerView.valueListener = listener
-        binding.picker2QuantityPickerView.valueListener = listener
-        binding.picker3QuantityPickerView.valueListener = listener
-        binding.picker4QuantityPickerView.valueListener = listener
-        binding.picker5QuantityPickerView.valueListener = listener
+        binding.picker1QuantityPickerView.actionListener = listener
+        binding.picker2QuantityPickerView.actionListener = listener
+        binding.picker3QuantityPickerView.actionListener = listener
+        binding.picker4QuantityPickerView.actionListener = listener
+        binding.picker5QuantityPickerView.actionListener = listener
 
     }
 

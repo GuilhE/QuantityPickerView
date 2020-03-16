@@ -69,8 +69,10 @@ class QuantityPickerView : View {
     private var startY: Float = 0f
     private var pressedButton: Button? = null
 
-    interface QuantityPickerViewChangeListener {
-        fun onChanged(view: QuantityPickerView, value: Int)
+    interface QuantityPickerViewActionListener {
+        fun onValueChanged(view: QuantityPickerView, value: Int)
+
+        fun onToggleFinish(isOpen: Boolean)
     }
 
     constructor(context: Context) : super(context)
@@ -213,7 +215,7 @@ class QuantityPickerView : View {
     var isRippleEnabled: Boolean = false
         private set
 
-    var valueListener: QuantityPickerViewChangeListener? = null
+    var actionListener: QuantityPickerViewActionListener? = null
     //endregion
 
     //region background
@@ -337,6 +339,7 @@ class QuantityPickerView : View {
                     override fun onAnimationEnd(animation: Animator) {
                         isAnimating = false
                         isOpen = btnAddXPosition == maxWidth.toFloat() - btnAdd.width
+                        actionListener?.onToggleFinish(isOpen)
                         if (isOpen) {
                             alphaAnimator?.start()
                         }
@@ -596,7 +599,7 @@ class QuantityPickerView : View {
 
     private fun updateAndReturn(): Boolean {
         invalidate()
-        valueListener?.onChanged(this, value)
+        actionListener?.onValueChanged(this, value)
         return true
     }
 
