@@ -24,6 +24,10 @@ class MainActivity : AppCompatActivity() {
 
         binding.picker1QuantityPickerView.valueListener = listener
         binding.picker2QuantityPickerView.valueListener = listener
+        binding.picker3QuantityPickerView.valueListener = listener
+        binding.picker4QuantityPickerView.valueListener = listener
+        binding.picker5QuantityPickerView.valueListener = listener
+
     }
 
     private fun dpToPx(dp: Int): Float {

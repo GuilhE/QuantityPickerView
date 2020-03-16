@@ -10,10 +10,6 @@
     <attr name="btnRemove" format="reference" />
     <attr name="btnAdd" format="reference" />
     <attr name="isOpen" format="boolean" />
-    <attr name="toggleFrom" format="enum">
-        <enum name="start" value="0" />
-        <enum name="end" value="1" />
-    </attr>
     <attr name="autoToggle" format="boolean" />
     <attr name="rippleEnable" format="boolean" />
     <attr name="rippleColor" format="color" />
@@ -30,7 +26,6 @@
         <attr name="btnAdd" />
         <attr name="isOpen" />
         <attr name="autoToggle" />
-        <attr name="toggleFrom" />
         <attr name="rippleEnable" />
         <attr name="rippleColor" />
     </declare-styleable>

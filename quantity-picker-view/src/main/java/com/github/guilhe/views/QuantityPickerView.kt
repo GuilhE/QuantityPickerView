@@ -112,7 +112,6 @@ class QuantityPickerView : View {
             setButtonRemove(a.getResourceId(R.styleable.QuantityPickerView_btnRemove, R.drawable.default_btn_remove))
             setButtonAdd(a.getResourceId(R.styleable.QuantityPickerView_btnAdd, R.drawable.default_btn_add))
             isAutoToggleEnabled = a.getBoolean(R.styleable.QuantityPickerView_autoToggle, true)
-            toggleFromStart = a.getInt(R.styleable.QuantityPickerView_toggleFrom, 0) == 0
             isOpen = a.getBoolean(R.styleable.QuantityPickerView_isOpen, false)
             rippleColor = a.getColor(R.styleable.QuantityPickerView_rippleColor, Color.GRAY)
             isRippleEnabled = a.getBoolean(R.styleable.QuantityPickerView_rippleEnable, false)
@@ -207,11 +206,6 @@ class QuantityPickerView : View {
      * When minimum value is reached the view closes automatically
      */
     var isAutoToggleEnabled: Boolean = true
-
-    /**
-     * Animate from Start to End, otherwise if false
-     */
-    var toggleFromStart: Boolean = true
 
     var isOpen: Boolean = false
         private set
@@ -322,19 +316,14 @@ class QuantityPickerView : View {
 
     fun toggle(duration: Long, interpolator: TimeInterpolator) {
         if (translateAnimator == null || !translateAnimator!!.isRunning) {
-            val buttonToTranslate = if (toggleFromStart) Button.ADD else Button.REMOVE
             translateAnimator = getAnimator(
-                if (buttonToTranslate == Button.ADD) btnAddXPosition else btnRemoveXPosition,
-                if (toggleFromStart) {
-                    if (isOpen) 0f else maxWidth.toFloat() - btnAdd.width
-                } else {
-                    if (isOpen) maxWidth.toFloat() - btnAdd.width else 0f
-                },
+                btnAddXPosition,
+                if (isOpen) 0f else maxWidth.toFloat() - btnAdd.width,
                 duration,
                 interpolator,
                 AnimatorUpdateListener { valueAnimator ->
                     val value = valueAnimator.animatedValue as Float
-                    translateButton(value, buttonToTranslate)
+                    translateButton(value, Button.ADD)
                     updateButtonsRect()
                 }).also {
                 it.addListener(object : Animator.AnimatorListener {
@@ -347,7 +336,7 @@ class QuantityPickerView : View {
 
                     override fun onAnimationEnd(animation: Animator) {
                         isAnimating = false
-                        isOpen = if (toggleFromStart) btnAddXPosition == maxWidth.toFloat() - btnAdd.width else btnRemoveXPosition == 0f
+                        isOpen = btnAddXPosition == maxWidth.toFloat() - btnAdd.width
                         if (isOpen) {
                             alphaAnimator?.start()
                         }
@@ -421,7 +410,6 @@ class QuantityPickerView : View {
         } else {
             btnRemoveXPosition = value
         }
-//        invalidate()
         requestLayout()
     }
 
@@ -467,15 +455,8 @@ class QuantityPickerView : View {
 
         if (initializing) {
             initializing = false
-            btnAddXPosition =
-                if (toggleFromStart) {
-                    if (isOpen) {
-                        (maxWidth - btnAdd.width).toFloat()
-                    } else 0f
-                } else {
-                    (maxWidth - btnAdd.width).toFloat()
-                }
-            btnRemoveXPosition = if (!toggleFromStart && !isOpen) btnAddXPosition else 0f
+            btnAddXPosition = if (isOpen) (maxWidth - btnAdd.width).toFloat() else 0f
+            btnRemoveXPosition = 0f
             updateButtonsRect()
             @RequiresApi(Build.VERSION_CODES.M)
             if (isRippleEnabled) {
@@ -483,14 +464,7 @@ class QuantityPickerView : View {
                 btnRippleDrawable?.radius = addButtonRect.height() / 2
             }
         }
-//        setMeasuredDimension(
-//            if (btnAddXPosition == btnRemoveXPosition)
-//                max(addButtonRect.width(), removeButtonRect.width())
-//            else
-//                abs(removeButtonRect.width() / 2 + btnAddXPosition - btnRemoveXPosition + addButtonRect.width() / 2).toInt(),
-//            height
-//        ).also { updateButtonsRect() }
-        maxWidth = width
+        setMeasuredDimension((btnAddXPosition + btnAdd.width).toInt(), height).also { updateButtonsRect() }
     }
 
     @Synchronized
@@ -643,7 +617,6 @@ class QuantityPickerView : View {
         bundle.putString("LABEL_FORMATTER", textLabelFormatter)
         bundle.putBoolean("IS_OPEN", isOpen)
         bundle.putBoolean("AUTO_TOGGLE", isAutoToggleEnabled)
-        bundle.putBoolean("TOGGLE_FROM_START", toggleFromStart)
         return bundle
     }
 
@@ -659,6 +632,5 @@ class QuantityPickerView : View {
         textLabelFormatter = bundle.getString("LABEL_FORMATTER", "%s")
         isOpen = bundle.getBoolean("IS_OPEN", false)
         isAutoToggleEnabled = bundle.getBoolean("AUTO_TOGGLE", true)
-        toggleFromStart = bundle.getBoolean("TOGGLE_FROM_START", true)
     }
 }
