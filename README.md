@@ -6,7 +6,7 @@ A View capable of increasing or decreasing a unit value with a toggle animation.
 <img src=".imgs/s1.gif" alt="Sample" width="30%"/> <img src=".imgs/s2.gif" alt="Sample" width="30%"/>
 
 #### Version 1.x
-- **March, 2020** - Added toggleFrom feature where you can choose from the Add button will be.
+- **March, 2020** - View size will be equal to its state in, other words, expanded.size != closed.size
 - **January, 2020** - QuantityPickerView 🥳
 
 ## Getting started
@@ -33,10 +33,6 @@ Attributes accepted in xml:
     <attr name="btnRemove" format="reference" />
     <attr name="btnAdd" format="reference" />
     <attr name="isOpen" format="boolean" />
-    <attr name="toggleFrom" format="enum">
-        <enum name="start" value="0" />
-        <enum name="end" value="1" />
-    </attr>
     <attr name="autoToggle" format="boolean" />
     <attr name="rippleEnable" format="boolean" />
     <attr name="rippleColor" format="color" />
