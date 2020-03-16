@@ -6,6 +6,7 @@ A View capable of increasing or decreasing a unit value with a toggle animation.
 <img src=".imgs/s1.gif" alt="Sample" width="30%"/> <img src=".imgs/s2.gif" alt="Sample" width="30%"/>
 
 #### Version 1.x
+- **March, 2020** - Added toggleFrom feature where you can choose from the Add button will be.
 - **January, 2020** - QuantityPickerView 🥳
 
 ## Getting started
@@ -21,21 +22,25 @@ Check out the __sample__ module where you can find a few examples of how to crea
 
 Attributes accepted in xml:
 ```xml
-<declare-styleable name="QuantityPickerView">
-        <attr name="min" format="integer" />
-        <attr name="max" format="integer" />
-        <attr name="value" format="integer" />
-        <attr name="textLabelSize" format="dimension" />
-        <attr name="textLabelFormatter" format="string" />
-        <attr name="textLabelFont" format="reference" />
-        <attr name="backgroundColor" format="color" />
-        <attr name="btnRemove" format="reference" />
-        <attr name="btnAdd" format="reference" />
-        <attr name="isOpen" format="boolean" />
-        <attr name="autoToggle" format="boolean" />
-        <attr name="rippleEnable" format="boolean" />
-        <attr name="rippleColor" format="color" />
-    </declare-styleable>
+<resources>
+    <attr name="min" format="integer" />
+    <attr name="max" format="integer" />
+    <attr name="value" format="integer" />
+    <attr name="textLabelSize" format="dimension" />
+    <attr name="textLabelFormatter" format="string" />
+    <attr name="textLabelFont" format="reference" />
+    <attr name="backgroundColor" format="color" />
+    <attr name="btnRemove" format="reference" />
+    <attr name="btnAdd" format="reference" />
+    <attr name="isOpen" format="boolean" />
+    <attr name="toggleFrom" format="enum">
+        <enum name="start" value="0" />
+        <enum name="end" value="1" />
+    </attr>
+    <attr name="autoToggle" format="boolean" />
+    <attr name="rippleEnable" format="boolean" />
+    <attr name="rippleColor" format="color" />
+</resources>
 ```
 
 Example:
