@@ -578,6 +578,7 @@ class QuantityPickerView : View {
                 invalidate()
                 return true
             }
+            MotionEvent.ACTION_CANCEL,
             MotionEvent.ACTION_OUTSIDE -> {
                 pressedButton = null
                 invalidate()
