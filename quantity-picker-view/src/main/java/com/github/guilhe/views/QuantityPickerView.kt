@@ -33,9 +33,7 @@ import kotlin.math.*
 @Suppress("unused", "MemberVisibilityCanBePrivate", "SameParameterValue")
 class QuantityPickerView : View {
 
-    enum class Button {
-        ADD, REMOVE
-    }
+    enum class Button { ADD, REMOVE }
 
     private val defaultMaxWidth = 200
     private val defaultMaxAlpha = 255
@@ -422,8 +420,8 @@ class QuantityPickerView : View {
     }
 
     private fun updateButtonsRect() {
-        removeButtonRect = Rect(btnRemoveXPosition.toInt(), measuredHeight / 2 - btnRemove.height / 2, btnRemove.width, btnRemove.height)
-        addButtonRect = Rect((btnAddXPosition.toInt()), measuredHeight / 2 - btnAdd.height / 2, measuredWidth, btnAdd.height)
+        removeButtonRect = Rect(btnRemoveXPosition.toInt(), 0, btnRemove.width, btnRemove.height)
+        addButtonRect = Rect((btnAddXPosition.toInt()), 0, measuredWidth, btnAdd.height)
     }
     //endregion animation
 
@@ -489,7 +487,7 @@ class QuantityPickerView : View {
         canvas.drawBitmap(
             btnRemove,
             btnRemoveXPosition,
-            (height / 2 - btnRemove.height / 2).toFloat(),
+            0f,
             btnRemovePaint.apply {
                 alpha = pickerPaint.alpha
                 colorFilter = if (!isRippleEnabled && btnRemovePressed) darkenColorFilter else null
@@ -498,7 +496,7 @@ class QuantityPickerView : View {
         canvas.drawBitmap(
             btnAdd,
             btnAddXPosition,
-            (height / 2 - btnAdd.height / 2).toFloat(),
+            0f,
             btnAddPaint.apply {
                 colorFilter = if (!isRippleEnabled && btnAddPressed) darkenColorFilter else null
             })
