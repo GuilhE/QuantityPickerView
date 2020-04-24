@@ -14,7 +14,7 @@ Include it into your project, for example, as a Gradle dependency:
 ```groovy
 implementation 'com.github.guilhe:quantity-picker-view:${LATEST_VERSION}'
 ```
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.guilhe/quantity-picker-view/badge.svg)](https://search.maven.org/artifact/com.github.guilhe/quantity-picker-view)  [![Download](https://api.bintray.com/packages/gdelgado/android/quantity-picker-view/images/download.svg)](https://bintray.com/gdelgado/android/quantity-picker-view/_latestVersion)  
+ [![Maven Central](https://img.shields.io/maven-central/v/com.github.guilhe/quantity-picker-view.svg)](https://search.maven.org/search?q=g:com.github.guilhe%20AND%quantity-picker-view) [![Download](https://api.bintray.com/packages/gdelgado/android/quantity-picker-view/images/download.svg)](https://bintray.com/gdelgado/android/quantity-picker-view/_latestVersion)  
 
 ## Usage
 Check out the __sample__ module where you can find a few examples of how to create it by `xml`.

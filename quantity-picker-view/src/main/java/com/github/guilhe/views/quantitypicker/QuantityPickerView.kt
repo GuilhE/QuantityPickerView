@@ -1,4 +1,4 @@
-package com.github.guilhe.views
+package com.github.guilhe.views.quantitypicker
 
 import android.animation.Animator
 import android.animation.FloatEvaluator
@@ -28,6 +28,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import com.github.guilhe.views.R
 import kotlin.math.*
 
 @Suppress("unused", "MemberVisibilityCanBePrivate", "SameParameterValue")
@@ -106,8 +107,14 @@ class QuantityPickerView : View {
             if (pickerBackgroundColor == -1) {
                 pickerBackgroundColor = defaultBackgroundColor
             }
-            setButtonRemove(a.getResourceId(R.styleable.QuantityPickerView_btnRemove, R.drawable.default_btn_remove))
-            setButtonAdd(a.getResourceId(R.styleable.QuantityPickerView_btnAdd, R.drawable.default_btn_add))
+            setButtonRemove(a.getResourceId(
+                R.styleable.QuantityPickerView_btnRemove,
+                R.drawable.default_btn_remove
+            ))
+            setButtonAdd(a.getResourceId(
+                R.styleable.QuantityPickerView_btnAdd,
+                R.drawable.default_btn_add
+            ))
             isAutoToggleEnabled = a.getBoolean(R.styleable.QuantityPickerView_autoToggle, true)
             isOpen = a.getBoolean(R.styleable.QuantityPickerView_isOpen, false)
             rippleColor = a.getColor(R.styleable.QuantityPickerView_rippleColor, Color.GRAY)
