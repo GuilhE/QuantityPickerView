@@ -1,4 +1,6 @@
-package com.github.guilhe.views.quantitypicker
+@file:Suppress("unused")
+
+package com.github.guilhe.views
 
 import android.animation.Animator
 import android.animation.FloatEvaluator
@@ -28,7 +30,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import com.github.guilhe.views.R
+import com.github.guilhe.views.quantitypicker.R
 import kotlin.math.*
 
 @Suppress("unused", "MemberVisibilityCanBePrivate", "SameParameterValue")
@@ -71,6 +73,8 @@ class QuantityPickerView : View {
     interface QuantityPickerViewActionListener {
         fun onValueChanged(view: QuantityPickerView, value: Int)
 
+        fun beforeStartToggle(willOpen: Boolean)
+
         fun onToggleFinish(isOpen: Boolean)
     }
 
@@ -92,7 +96,8 @@ class QuantityPickerView : View {
         initializing = true
         var customTypeFace: Typeface? = null
         @ColorInt val rippleColor: Int?
-        val a = context.theme.obtainStyledAttributes(attrs, R.styleable.QuantityPickerView, 0, 0)
+        val a = context.theme.obtainStyledAttributes(attrs,
+            R.styleable.QuantityPickerView, 0, 0)
         try {
             min = a.getInt(R.styleable.QuantityPickerView_min, 0)
             max = a.getInt(R.styleable.QuantityPickerView_max, Integer.MAX_VALUE)
@@ -110,14 +115,18 @@ class QuantityPickerView : View {
             if (pickerBackgroundColor == -1) {
                 pickerBackgroundColor = defaultBackgroundColor
             }
-            setButtonRemove(a.getResourceId(
-                R.styleable.QuantityPickerView_btnRemove,
-                R.drawable.default_btn_remove
-            ))
-            setButtonAdd(a.getResourceId(
-                R.styleable.QuantityPickerView_btnAdd,
-                R.drawable.default_btn_add
-            ))
+            setButtonRemove(
+                a.getResourceId(
+                    R.styleable.QuantityPickerView_btnRemove,
+                    R.drawable.default_btn_remove
+                )
+            )
+            setButtonAdd(
+                a.getResourceId(
+                    R.styleable.QuantityPickerView_btnAdd,
+                    R.drawable.default_btn_add
+                )
+            )
             isAutoToggleEnabled = a.getBoolean(R.styleable.QuantityPickerView_autoToggle, true)
             isOpen = a.getBoolean(R.styleable.QuantityPickerView_isOpen, false)
             rippleColor = a.getColor(R.styleable.QuantityPickerView_rippleColor, Color.GRAY)
@@ -339,6 +348,7 @@ class QuantityPickerView : View {
                         if (isOpen && labelAlpha > 0) {
                             alphaAnimator?.start()
                         }
+                        actionListener?.beforeStartToggle(!isOpen)
                     }
 
                     override fun onAnimationEnd(animation: Animator) {
@@ -350,11 +360,9 @@ class QuantityPickerView : View {
                         }
                     }
 
-                    override fun onAnimationRepeat(animation: Animator?) {
-                    }
+                    override fun onAnimationRepeat(animation: Animator?) {}
 
-                    override fun onAnimationCancel(animation: Animator?) {
-                    }
+                    override fun onAnimationCancel(animation: Animator?) {}
                 })
             }
 
@@ -642,4 +650,26 @@ class QuantityPickerView : View {
         isOpen = bundle.getBoolean("IS_OPEN", false)
         isAutoToggleEnabled = bundle.getBoolean("AUTO_TOGGLE", true)
     }
+}
+
+inline fun QuantityPickerView.addActionListener(
+    crossinline onValueChanged: (view: QuantityPickerView, value: Int) -> Unit = { _, _ -> },
+    crossinline beforeStartToggle: (isOpen: Boolean) -> Unit = { _ -> },
+    crossinline onToggleFinish: (willOpen: Boolean) -> Unit = { _ -> }
+): QuantityPickerView.QuantityPickerViewActionListener {
+    val callback = object : QuantityPickerView.QuantityPickerViewActionListener {
+        override fun onValueChanged(view: QuantityPickerView, value: Int) {
+            onValueChanged.invoke(view, value)
+        }
+
+        override fun beforeStartToggle(willOpen: Boolean) {
+            beforeStartToggle.invoke(willOpen)
+        }
+
+        override fun onToggleFinish(isOpen: Boolean) {
+            onToggleFinish.invoke(isOpen)
+        }
+    }
+    actionListener = callback
+    return callback
 }
