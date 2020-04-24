@@ -2,10 +2,14 @@
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-QuantityPickerView-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/8022)  
 
 A View capable of increasing or decreasing a unit value with a toggle animation.  
-
-<img src=".imgs/s1.gif" alt="Sample" width="30%"/> <img src=".imgs/s2.gif" alt="Sample" width="30%"/>
+<img src="https://raw.githubusercontent.com/Guilhe/android-quantity-picker-view/master/.imgs/s1.gif" alt="Sample" width="27%"/> <img src="https://raw.githubusercontent.com/Guilhe/android-quantity-picker-view/master/.imgs/s2.gif" alt="Sample" width="27%"/>
 
 #### Version 1.x
+- **March, 2020** - View size will be equal to its state, in other words, _expanded.size != colapsed.size_:  
+
+<img src="https://raw.githubusercontent.com/Guilhe/android-quantity-picker-view/master/.imgs/s3.gif" alt="Sample"/> <img src="https://raw.githubusercontent.com/Guilhe/android-quantity-picker-view/master/.imgs/s4.gif" alt="Sample"/>
+
+
 - **January, 2020** - QuantityPickerView 🥳
 
 ## Getting started
@@ -21,21 +25,21 @@ Check out the __sample__ module where you can find a few examples of how to crea
 
 Attributes accepted in xml:
 ```xml
-<declare-styleable name="QuantityPickerView">
-        <attr name="min" format="integer" />
-        <attr name="max" format="integer" />
-        <attr name="value" format="integer" />
-        <attr name="textLabelSize" format="dimension" />
-        <attr name="textLabelFormatter" format="string" />
-        <attr name="textLabelFont" format="reference" />
-        <attr name="backgroundColor" format="color" />
-        <attr name="btnRemove" format="reference" />
-        <attr name="btnAdd" format="reference" />
-        <attr name="isOpen" format="boolean" />
-        <attr name="autoToggle" format="boolean" />
-        <attr name="rippleEnable" format="boolean" />
-        <attr name="rippleColor" format="color" />
-    </declare-styleable>
+<resources>
+    <attr name="min" format="integer" />
+    <attr name="max" format="integer" />
+    <attr name="value" format="integer" />
+    <attr name="textLabelSize" format="dimension" />
+    <attr name="textLabelFormatter" format="string" />
+    <attr name="textLabelFont" format="reference" />
+    <attr name="backgroundColor" format="color" />
+    <attr name="btnRemove" format="reference" />
+    <attr name="btnAdd" format="reference" />
+    <attr name="isOpen" format="boolean" />
+    <attr name="autoToggle" format="boolean" />
+    <attr name="rippleEnable" format="boolean" />
+    <attr name="rippleColor" format="color" />
+</resources>
 ```
 
 Example:
