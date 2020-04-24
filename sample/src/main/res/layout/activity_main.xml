@@ -19,7 +19,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <com.github.guilhe.views.QuantityPickerView
+            <com.github.guilhe.views.quantitypicker.QuantityPickerView
                 android:id="@+id/picker_1_QuantityPickerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
             app:layout_constraintStart_toStartOf="@+id/parent1"
             app:layout_constraintTop_toBottomOf="@+id/parent1">
 
-            <com.github.guilhe.views.QuantityPickerView
+            <com.github.guilhe.views.quantitypicker.QuantityPickerView
                 android:id="@+id/picker_2_QuantityPickerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
             app:layout_constraintStart_toStartOf="@+id/parent2"
             app:layout_constraintTop_toBottomOf="@+id/parent2">
 
-            <com.github.guilhe.views.QuantityPickerView
+            <com.github.guilhe.views.quantitypicker.QuantityPickerView
                 android:id="@+id/picker_3_QuantityPickerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
             app:layout_constraintStart_toStartOf="@+id/parent3"
             app:layout_constraintTop_toBottomOf="@+id/parent3">
 
-            <com.github.guilhe.views.QuantityPickerView
+            <com.github.guilhe.views.quantitypicker.QuantityPickerView
                 android:id="@+id/picker_4_QuantityPickerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -104,7 +104,7 @@
             app:layout_constraintStart_toStartOf="@+id/parent4"
             app:layout_constraintTop_toBottomOf="@+id/parent4">
 
-            <com.github.guilhe.views.QuantityPickerView
+            <com.github.guilhe.views.quantitypicker.QuantityPickerView
                 android:id="@+id/picker_5_QuantityPickerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
