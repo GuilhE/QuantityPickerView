@@ -4,21 +4,15 @@
 A View capable of increasing or decreasing a unit value with a toggle animation.  
 <img src="https://raw.githubusercontent.com/Guilhe/android-quantity-picker-view/master/.imgs/s1.gif" alt="Sample" width="27%"/> <img src="https://raw.githubusercontent.com/Guilhe/android-quantity-picker-view/master/.imgs/s2.gif" alt="Sample" width="27%"/>
 
-#### Version 1.x
-- **March, 2020** - View size will be equal to its state, in other words, _expanded.size != colapsed.size_:  
 
-<img src="https://raw.githubusercontent.com/Guilhe/android-quantity-picker-view/master/.imgs/s3.gif" alt="Sample"/> <img src="https://raw.githubusercontent.com/Guilhe/android-quantity-picker-view/master/.imgs/s4.gif" alt="Sample"/>
+## Installation
 
-
-- **January, 2020** - QuantityPickerView 🥳
-
-## Getting started
-Include it into your project, for example, as a Gradle dependency:
+QuantityPickerView is distributed through [Maven Central](https://search.maven.org/artifact/com.github.guilhe/quantity-picker-view), [Jcenter](https://bintray.com/gdelgado/android/quantity-picker-view) and [Jitpack](https://jitpack.io/#GuilhE/quantity-picker-view).
 
 ```groovy
 implementation 'com.github.guilhe:quantity-picker-view:${LATEST_VERSION}'
 ```
- [![Maven Central](https://img.shields.io/maven-central/v/com.github.guilhe/quantity-picker-view.svg)](https://search.maven.org/search?q=g:com.github.guilhe%20AND%quantity-picker-view) [![Download](https://api.bintray.com/packages/gdelgado/android/quantity-picker-view/images/download.svg)](https://bintray.com/gdelgado/android/quantity-picker-view/_latestVersion)  
+ [![Maven Central](https://img.shields.io/maven-central/v/com.github.guilhe/quantity-picker-view.svg)](https://search.maven.org/search?q=g:com.github.guilhe%20AND%quantity-picker-view) [![Download](https://api.bintray.com/packages/gdelgado/android/quantity-picker-view/images/download.svg)](https://bintray.com/gdelgado/android/quantity-picker-view/_latestVersion) ![Bintray](https://img.shields.io/bintray/dt/gdelgado/android/quantity-picker-view)  
 
 ## Usage
 Check out the __sample__ module where you can find a few examples of how to create it by `xml`.
@@ -52,10 +46,8 @@ com.github.guilhe.views.QuantityPickerView
     app:textLabelSize="14sp"/>
 ```
 
-## Binaries
-Binaries and dependency information for Gradle, Maven, Ivy and others can be found [here](https://search.maven.org/artifact/com.github.guilhe/quantity-picker-view).
+<img src="https://raw.githubusercontent.com/Guilhe/android-quantity-picker-view/master/.imgs/s3.gif" alt="Sample"/> <img src="https://raw.githubusercontent.com/Guilhe/android-quantity-picker-view/master/.imgs/s4.gif" alt="Sample"/>
 
-<a href='https://bintray.com/gdelgado/android/quantity-picker-view?source=watch' alt='Get automatic notifications about new "quantity-picker-view" versions'><img src='https://www.bintray.com/docs/images/bintray_badge_bw.png'></a>
 
 ## Dependencies
 - [com.android.support:support-annotations](https://developer.android.com/topic/libraries/support-library/packages.html#annotations)
