@@ -2,12 +2,11 @@
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-QuantityPickerView-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/8022)  
 
 A View capable of increasing or decreasing a unit value with a toggle animation.  
-<img src="https://raw.githubusercontent.com/Guilhe/android-quantity-picker-view/master/.imgs/s1.gif" alt="Sample" width="27%"/> <img src="https://raw.githubusercontent.com/Guilhe/android-quantity-picker-view/master/.imgs/s2.gif" alt="Sample" width="27%"/>
-
+<img src="media/s1.gif" alt="Sample" width="27%"/> <img src="media/s2.gif" alt="Sample" width="27%"/>
 
 ## Installation
 
-QuantityPickerView is distributed through [Maven Central](https://search.maven.org/artifact/com.github.guilhe/quantity-picker-view), [Jcenter](https://bintray.com/gdelgado/android/quantity-picker-view) and [Jitpack](https://jitpack.io/#GuilhE/quantity-picker-view).
+QuantityPickerView is distributed through [Maven Central](https://search.maven.org/artifact/com.github.guilhe/quantity-picker-view), [Jcenter](https://bintray.com/gdelgado/android/quantity-picker-view) and [Jitpack](https://jitpack.io/#GuilhE/QuantityPickerView).
 
 ```groovy
 implementation 'com.github.guilhe:quantity-picker-view:${LATEST_VERSION}'
@@ -46,7 +45,7 @@ com.github.guilhe.views.QuantityPickerView
     app:textLabelSize="14sp"/>
 ```
 
-<img src="https://raw.githubusercontent.com/Guilhe/android-quantity-picker-view/master/.imgs/s3.gif" alt="Sample"/> <img src="https://raw.githubusercontent.com/Guilhe/android-quantity-picker-view/master/.imgs/s4.gif" alt="Sample"/>
+<img src="media/s3.gif" alt="Sample"/> <img src="media/s4.gif" alt="Sample"/>
 
 
 ## Dependencies
@@ -54,7 +53,7 @@ com.github.guilhe.views.QuantityPickerView
 - [androidx.appcompat:appcompat](https://developer.android.com/jetpack/androidx/releases/appcompat) (for ResourcesCompat.getFont())
 
 ## Bugs and Feedback
-For bugs, questions and discussions please use the [Github Issues](https://github.com/GuilhE/android-quantity-picker-view/issues).
+For bugs, questions and discussions please use the [Github Issues](https://github.com/GuilhE/QuantityPickerView/issues).
 
  
 ## LICENSE

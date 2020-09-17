@@ -6,7 +6,7 @@
 
 - View size will be equal to its state, in other words, _expanded.size != colapsed.size_:  
 
-<img src="https://raw.githubusercontent.com/Guilhe/android-quantity-picker-view/master/.imgs/s3.gif" alt="Sample"/> <img src="https://raw.githubusercontent.com/Guilhe/android-quantity-picker-view/master/.imgs/s4.gif" alt="Sample"/>
+<img src="media/s3.gif" alt="Sample"/> <img src="media/s4.gif" alt="Sample"/>
 
 ---
 

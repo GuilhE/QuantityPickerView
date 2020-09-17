@@ -1,2 +1,2 @@
-include ':quantity-picker-view', ':sample'
-rootProject.name='android-quantity-picker-view'
+rootProject.name = "QuantityPickerView"
+include("quantity-picker-view", "sample")
