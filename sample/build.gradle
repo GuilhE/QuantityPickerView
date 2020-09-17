@@ -7,10 +7,6 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
 
-    dataBinding {
-        enabled = true
-    }
-
     defaultConfig {
         applicationId "com.github.guilhe.quantitypicker.sample"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -18,6 +14,8 @@ android {
         versionCode 3
         versionName "1.2.1"
     }
+    
+    android.buildFeatures.dataBinding = true
 
     buildTypes {
         release {
